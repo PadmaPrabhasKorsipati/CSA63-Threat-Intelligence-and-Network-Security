@@ -1,0 +1,120 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyMoHSvOwauWL6Oez0EH6fPW",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/PadmaPrabhasKorsipati/CSA63-Threat-Intelligence-and-Network-Security/blob/main/Lab/Unit%204%20Experiments/LAB_03_Signature-Based%20IDS%20Detection%20Engineipynb\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 15,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "bKKHeWAtGLCN",
+        "outputId": "6555c48e-4f42-4a0f-8bc1-b14b47fc6cdd"
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "All test cases passed.\n"
+          ]
+        }
+      ],
+      "source": [
+        "\n",
+        "IDS_RULES = [\n",
+        "    {\n",
+        "        \"sid\": 2000001,\n",
+        "        \"msg\": \"Possible SQL Injection\",\n",
+        "        \"proto\": \"tcp\",\n",
+        "        \"dst_port\": 80,\n",
+        "        \"content\": \"union select\"\n",
+        "    },\n",
+        "    {\n",
+        "        \"sid\": 2000002,\n",
+        "        \"msg\": \"Directory Traversal Attempt\",\n",
+        "        \"proto\": \"tcp\",\n",
+        "        \"dst_port\": 80,\n",
+        "        \"content\": \"../../../etc/passwd\"\n",
+        "    },\n",
+        "    {\n",
+        "        \"sid\": 2000003,\n",
+        "        \"msg\": \"Suspicious RDP Brute Force Pattern\",\n",
+        "        \"proto\": \"tcp\",\n",
+        "        \"dst_port\": 3389,\n",
+        "        \"content\": \"login_attempt\"\n",
+        "    }\n",
+        "]\n",
+        "\n",
+        "\n",
+        "def scan_packet(packet, rules=IDS_RULES):\n",
+        "    alerts = []\n",
+        "    payload_lower = packet[\"payload\"].lower()\n",
+        "\n",
+        "    for rule in rules:\n",
+        "        if packet[\"proto\"] == rule[\"proto\"] and packet[\"dst_port\"] == rule[\"dst_port\"]:\n",
+        "            if rule[\"content\"].lower() in payload_lower:\n",
+        "                alerts.append(rule[\"msg\"])\n",
+        "\n",
+        "    return alerts\n",
+        "\n",
+        "\n",
+        "def test_experiment3():\n",
+        "    sqli_packet = {\n",
+        "        \"proto\": \"tcp\",\n",
+        "        \"dst_port\": 80,\n",
+        "        \"payload\": \"id=1' UNION SELECT user,pass FROM accounts--\"\n",
+        "    }\n",
+        "\n",
+        "    assert \"Possible SQL Injection\" in scan_packet(sqli_packet)\n",
+        "\n",
+        "    traversal_packet = {\n",
+        "        \"proto\": \"tcp\",\n",
+        "        \"dst_port\": 80,\n",
+        "        \"payload\": \"GET /files?path=../../../etc/passwd\"\n",
+        "    }\n",
+        "\n",
+        "    assert \"Directory Traversal Attempt\" in scan_packet(traversal_packet)\n",
+        "\n",
+        "    wrong_context = {\n",
+        "        \"proto\": \"tcp\",\n",
+        "        \"dst_port\": 22,\n",
+        "        \"payload\": \"id=1' UNION SELECT user,pass FROM accounts--\"\n",
+        "    }\n",
+        "\n",
+        "    assert scan_packet(wrong_context) == []\n",
+        "\n",
+        "    print(\"All test cases passed.\")\n",
+        "\n",
+        "\n",
+        "test_experiment3()\n",
+        ""
+      ]
+    }
+  ]
+}
