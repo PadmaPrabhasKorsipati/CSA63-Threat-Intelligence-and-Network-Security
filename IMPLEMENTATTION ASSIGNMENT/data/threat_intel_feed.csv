@@ -1,5 +1,0 @@
-indicator,type,threat_type,confidence,source
-198.51.100.23,ip,scanning_bruteforce,high,Internal-SOC-Watchlist
-203.0.113.50,ip,malware_c2,high,OSINT-Feed-A
-phish-bank-login.example.com,domain,phishing,medium,OSINT-Feed-B
-185.220.101.7,ip,malware_c2,medium,OSINT-Feed-A
