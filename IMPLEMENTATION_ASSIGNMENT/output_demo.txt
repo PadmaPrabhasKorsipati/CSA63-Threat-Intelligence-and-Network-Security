@@ -1,0 +1,139 @@
+
+==================================================================================
+                          CSA63 DELIVERABLE VERIFICATION                          
+==================================================================================
+[PASS] Deliverable 1: Menu-driven SOC workflow
+[PASS] Deliverable 2: Firewall + Authentication + IDS normalization
+[PASS] Deliverable 3: Cross-source multi-stage correlation
+[PASS] Deliverable 4: IP/domain threat-intelligence matching
+[PASS] Deliverable 5: Weighted risk/priority scoring
+[PASS] Deliverable 6: Port scan + brute-force + beacon + phishing
+[PASS] Deliverable 7: Five-stage timestamped lifecycle
+[PASS] Deliverable 8: Structured incident report + evidence
+[PASS] Deliverable 9: Written reflection included with project
+[PASS] Deliverable 10: Clean source + supplied datasets + output
+
+Source records loaded:
+  Firewall: 12
+  Authentication: 9
+  IDS: 8
+  Normalized total: 29
+  Multi-stage chains: 1
+==================================================================================
+
+PIPELINE EXECUTION
+----------------------------------------------------------------------------------
+1. Ingestion/normalization: 29 records
+2. Classification: port_scan=1, brute_force=1, malware_beacon=1, phishing=1
+3. Correlation: 1 multi-stage compromise chain(s)
+4. Risk scoring: 5 incidents scored
+5. Lifecycle: highest-risk incident progressed through all five stages
+6. Reporting: full evidence report generated
+INC-005: Identification -> Containment
+INC-005: Containment -> Eradication
+INC-005: Eradication -> Recovery
+INC-005: Recovery -> Lessons Learned
+
+FINAL SOC REPORT
+
+==================================================================================
+                            CAMPUS SOC INCIDENT REPORT                            
+==================================================================================
+Total incidents: 5
+
+INC-005 | MULTI_STAGE_COMPROMISE | Risk 100/100
+Source: 198.51.100.23
+Target: 10.0.2.15
+Summary: 198.51.100.23 probed 5 ports on 10.0.2.15 within 18 seconds. -> 6 failed logins for 'admin' from 198.51.100.23, followed by a successful login on SRV-DC01. -> 10.0.2.15 contacted 203.0.113.50:443 5 times at roughly 600 second intervals.
+Threat intelligence: 198.51.100.23 | scanning_bruteforce | confidence=high
+Current lifecycle stage: Lessons Learned
+Lifecycle history:
+  2026-09-01 08:14:46 | Identification | Incident created automatically from detected evidence.
+  2026-09-01 08:14:46 | Containment | Compromised host isolated from the network.
+  2026-09-01 08:14:46 | Eradication | Malicious files and persistence removed.
+  2026-09-01 08:14:46 | Recovery | Clean backup restored and service validated.
+  2026-09-01 08:14:46 | Lessons Learned | Post-incident review completed and defensive controls updated.
+Supporting evidence:
+  2026-04-02 00:10:02 | FIREWALL | 198.51.100.23 -> 10.0.2.15 | BLOCK TCP port 22 bytes=60
+  2026-04-02 00:10:05 | FIREWALL | 198.51.100.23 -> 10.0.2.15 | BLOCK TCP port 80 bytes=60
+  2026-04-02 00:10:09 | FIREWALL | 198.51.100.23 -> 10.0.2.15 | BLOCK TCP port 443 bytes=60
+  2026-04-02 00:10:14 | FIREWALL | 198.51.100.23 -> 10.0.2.15 | BLOCK TCP port 3306 bytes=60
+  2026-04-02 00:10:20 | FIREWALL | 198.51.100.23 -> 10.0.2.15 | ALLOW TCP port 3389 bytes=120
+  2026-04-02 00:15:01 | AUTH | 198.51.100.23 -> SRV-DC01 | FAILED_LOGIN user=admin host=SRV-DC01
+  2026-04-02 00:15:09 | AUTH | 198.51.100.23 -> SRV-DC01 | FAILED_LOGIN user=admin host=SRV-DC01
+  2026-04-02 00:15:17 | AUTH | 198.51.100.23 -> SRV-DC01 | FAILED_LOGIN user=admin host=SRV-DC01
+  2026-04-02 00:15:25 | AUTH | 198.51.100.23 -> SRV-DC01 | FAILED_LOGIN user=admin host=SRV-DC01
+  2026-04-02 00:15:33 | AUTH | 198.51.100.23 -> SRV-DC01 | FAILED_LOGIN user=admin host=SRV-DC01
+  2026-04-02 00:15:41 | AUTH | 198.51.100.23 -> SRV-DC01 | FAILED_LOGIN user=admin host=SRV-DC01
+  2026-04-02 00:16:02 | AUTH | 198.51.100.23 -> SRV-DC01 | SUCCESSFUL_LOGIN user=admin host=SRV-DC01
+  2026-04-02 00:20:11 | FIREWALL | 10.0.2.15 -> 203.0.113.50 | ALLOW TCP port 443 bytes=2048
+  2026-04-02 00:30:14 | FIREWALL | 10.0.2.15 -> 203.0.113.50 | ALLOW TCP port 443 bytes=1984
+  2026-04-02 00:40:09 | FIREWALL | 10.0.2.15 -> 203.0.113.50 | ALLOW TCP port 443 bytes=2101
+  2026-04-02 00:50:17 | FIREWALL | 10.0.2.15 -> 203.0.113.50 | ALLOW TCP port 443 bytes=1975
+  2026-04-02 01:00:12 | FIREWALL | 10.0.2.15 -> 203.0.113.50 | ALLOW TCP port 443 bytes=2050
+
+INC-003 | MALWARE_BEACON | Risk 75/100
+Source: 10.0.2.15
+Target: 203.0.113.50
+Summary: 10.0.2.15 contacted 203.0.113.50:443 5 times at roughly 600 second intervals.
+Threat intelligence: 203.0.113.50 | malware_c2 | confidence=high
+Current lifecycle stage: Identification
+Lifecycle history:
+  2026-09-01 08:14:46 | Identification | Incident created automatically from detected evidence.
+Supporting evidence:
+  2026-04-02 00:20:11 | FIREWALL | 10.0.2.15 -> 203.0.113.50 | ALLOW TCP port 443 bytes=2048
+  2026-04-02 00:30:14 | FIREWALL | 10.0.2.15 -> 203.0.113.50 | ALLOW TCP port 443 bytes=1984
+  2026-04-02 00:40:09 | FIREWALL | 10.0.2.15 -> 203.0.113.50 | ALLOW TCP port 443 bytes=2101
+  2026-04-02 00:50:17 | FIREWALL | 10.0.2.15 -> 203.0.113.50 | ALLOW TCP port 443 bytes=1975
+  2026-04-02 01:00:12 | FIREWALL | 10.0.2.15 -> 203.0.113.50 | ALLOW TCP port 443 bytes=2050
+
+INC-002 | BRUTE_FORCE | Risk 74/100
+Source: 198.51.100.23
+Target: SRV-DC01
+Summary: 6 failed logins for 'admin' from 198.51.100.23, followed by a successful login on SRV-DC01.
+Threat intelligence: 198.51.100.23 | scanning_bruteforce | confidence=high
+Current lifecycle stage: Identification
+Lifecycle history:
+  2026-09-01 08:14:46 | Identification | Incident created automatically from detected evidence.
+Supporting evidence:
+  2026-04-02 00:15:01 | AUTH | 198.51.100.23 -> SRV-DC01 | FAILED_LOGIN user=admin host=SRV-DC01
+  2026-04-02 00:15:09 | AUTH | 198.51.100.23 -> SRV-DC01 | FAILED_LOGIN user=admin host=SRV-DC01
+  2026-04-02 00:15:17 | AUTH | 198.51.100.23 -> SRV-DC01 | FAILED_LOGIN user=admin host=SRV-DC01
+  2026-04-02 00:15:25 | AUTH | 198.51.100.23 -> SRV-DC01 | FAILED_LOGIN user=admin host=SRV-DC01
+  2026-04-02 00:15:33 | AUTH | 198.51.100.23 -> SRV-DC01 | FAILED_LOGIN user=admin host=SRV-DC01
+  2026-04-02 00:15:41 | AUTH | 198.51.100.23 -> SRV-DC01 | FAILED_LOGIN user=admin host=SRV-DC01
+  2026-04-02 00:16:02 | AUTH | 198.51.100.23 -> SRV-DC01 | SUCCESSFUL_LOGIN user=admin host=SRV-DC01
+
+INC-001 | PORT_SCAN | Risk 55/100
+Source: 198.51.100.23
+Target: 10.0.2.15
+Summary: 198.51.100.23 probed 5 ports on 10.0.2.15 within 18 seconds.
+Threat intelligence: 198.51.100.23 | scanning_bruteforce | confidence=high
+Current lifecycle stage: Identification
+Lifecycle history:
+  2026-09-01 08:14:46 | Identification | Incident created automatically from detected evidence.
+Supporting evidence:
+  2026-04-02 00:10:02 | FIREWALL | 198.51.100.23 -> 10.0.2.15 | BLOCK TCP port 22 bytes=60
+  2026-04-02 00:10:05 | FIREWALL | 198.51.100.23 -> 10.0.2.15 | BLOCK TCP port 80 bytes=60
+  2026-04-02 00:10:09 | FIREWALL | 198.51.100.23 -> 10.0.2.15 | BLOCK TCP port 443 bytes=60
+  2026-04-02 00:10:14 | FIREWALL | 198.51.100.23 -> 10.0.2.15 | BLOCK TCP port 3306 bytes=60
+  2026-04-02 00:10:20 | FIREWALL | 198.51.100.23 -> 10.0.2.15 | ALLOW TCP port 3389 bytes=120
+
+INC-004 | PHISHING | Risk 42/100
+Source: 10.0.5.42
+Target: 198.51.100.90
+Summary: [MEDIUM] HTTP Request to Known Phishing Domain: phish-bank-login.example.com
+Threat intelligence: phish-bank-login.example.com | phishing | confidence=medium
+Current lifecycle stage: Identification
+Lifecycle history:
+  2026-09-01 08:14:46 | Identification | Incident created automatically from detected evidence.
+Supporting evidence:
+  2026-04-02 09:05:22 | IDS | 10.0.5.42 -> 198.51.100.90 | [MEDIUM] HTTP Request to Known Phishing Domain: phish-bank-login.example.com
+
+Category summary:
+  PORT_SCAN                 1
+  BRUTE_FORCE               1
+  MALWARE_BEACON            1
+  PHISHING                  1
+  MULTI_STAGE_COMPROMISE    1
+==================================================================================

@@ -1,0 +1,25 @@
+CSA63 LOCAL CODE ORIGINALITY SELF-CHECK
+
+Files compared
+--------------
+Final implementation: soc_system_final.py
+Supplied reference: soc_system.py
+
+Results
+-------
+5-token shingle Jaccard similarity: 3.34%
+Whole-file SequenceMatcher similarity: 10.82%
+
+IMPORTANT
+---------
+This is NOT Turnitin, iThenticate, or an institutional plagiarism percentage.
+It cannot compare against private student submissions, journals, websites, or
+databases that are unavailable in this environment.
+
+The code was independently restructured around the same assignment requirements
+and the same supplied dataset. Similarity is expected in technical vocabulary and
+required workflow concepts because both programs solve the same specification.
+
+For the final submission, run the exact submitted files through the institution's
+approved plagiarism checker. Do not present this local metric as an official
+plagiarism score.
