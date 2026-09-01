@@ -1,0 +1,13 @@
+CSA63 Reflection – Design Decisions, SDG Relevance and Learning
+
+I designed the Campus SOC simulator as a small pipeline so that each security task can be tested independently and then combined into an incident story. The first design decision was to normalize firewall, authentication and IDS events into one common structure containing a parsed timestamp, source type, source address, target and detail. This makes chronological ordering and cross-source analysis consistent instead of comparing raw CSV strings. I also retained the original row inside each normalized event so the final report can show supporting evidence.
+
+The detection layer separates four categories: port scanning, brute-force authentication, malware beaconing and phishing. The port-scan rule looks for several destination ports contacted by one source in a short window. The brute-force rule requires repeated failed logins followed by a successful login for the same account, source and hostname. Beacon detection examines repeated allowed connections and their time gaps. Phishing is identified from the IDS signature. Keeping these detectors separate makes their behavior easier to explain and test.
+
+For correlation, I used the host identity mapping because the authentication dataset names the server as SRV-DC01 while network logs use 10.0.2.15. The correlation therefore checks the attacker, canonical target and event order before connecting the scan, login attack and later outbound beacon. Threat intelligence is checked against both source and destination indicators, with DNS resolution allowing an IP observed in network traffic to match a malicious domain in the feed.
+
+The risk model starts with a category-specific base value and adds points for a threat-intelligence match and evidence volume, with a maximum of 100. This gives a repeatable priority rather than an arbitrary number. The multi-stage compromise receives the highest priority because it combines multiple stages of compromise and supporting evidence.
+
+The project is relevant to SDG 9 because automated monitoring supports resilient digital infrastructure, to SDG 16 because better detection and incident records strengthen institutional security and trust, and to SDG 17 because effective SOC work depends on combining information from different systems and sources.
+
+The main implementation challenge was cross-source identity mismatch and preserving an auditable lifecycle. I learned that a SOC detector is more useful when it explains why an alert was created, links related evidence, assigns a defensible priority, and records every response stage rather than only displaying a final alert.

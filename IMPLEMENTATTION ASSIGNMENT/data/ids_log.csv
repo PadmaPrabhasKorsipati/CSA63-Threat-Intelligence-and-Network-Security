@@ -1,0 +1,9 @@
+timestamp,src_ip,dst_ip,signature,severity
+2026-04-02 00:10:22,198.51.100.23,10.0.2.15,TCP Port Scan Detected (5 ports in 20s),high
+2026-04-02 00:20:11,10.0.2.15,203.0.113.50,Known C2 Beacon Pattern Match,high
+2026-04-02 00:30:14,10.0.2.15,203.0.113.50,Known C2 Beacon Pattern Match,high
+2026-04-02 00:40:09,10.0.2.15,203.0.113.50,Known C2 Beacon Pattern Match,high
+2026-04-02 00:50:17,10.0.2.15,203.0.113.50,Known C2 Beacon Pattern Match,high
+2026-04-02 01:00:12,10.0.2.15,203.0.113.50,Known C2 Beacon Pattern Match,high
+2026-04-02 09:05:22,10.0.5.42,198.51.100.90,HTTP Request to Known Phishing Domain: phish-bank-login.example.com,medium
+2026-04-02 11:12:40,10.0.5.10,172.16.0.9,Benign Traffic Pattern,low

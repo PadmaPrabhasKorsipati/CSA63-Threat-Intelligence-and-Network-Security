@@ -1,0 +1,31 @@
+CSA63 DELIVERABLE CHECKLIST
+
+1. Working menu-driven Python program
+   PASS – interactive menu plus --demo mode.
+
+2. Three log-source loaders and normalization
+   PASS – firewall, authentication and IDS.
+
+3. Cross-source multi-stage correlation
+   PASS – port scan + brute-force + later beacon, using host identity mapping.
+
+4. Threat-intelligence matching
+   PASS – source/destination IP checks plus DNS-to-domain resolution.
+
+5. Risk/priority scoring
+   PASS – category base + threat-intel confidence + evidence-volume bonus, capped at 100.
+
+6. Four event categories
+   PASS – port scan, brute-force, malware beacon, phishing.
+
+7. Incident-response lifecycle
+   PASS – Identification, Containment, Eradication, Recovery, Lessons Learned, each timestamped.
+
+8. Human-readable report
+   PASS – risk order, summary, threat-intelligence result, evidence and lifecycle history.
+
+9. Reflection
+   PASS – 300–500 word reflection supplied as a separate file.
+
+10. Clean source, sample data and output
+    PASS – source, exact supplied CSV dataset and generated demo output included.
